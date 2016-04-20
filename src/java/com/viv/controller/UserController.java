@@ -1,5 +1,6 @@
 package com.viv.controller;
 
+import com.viv.dao.UserTest;
 import com.viv.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +93,12 @@ public class UserController {
         u.setHome("dd");
         u.setSex("dd");
         model.addObject(u);
+        UserTest test = new UserTest();
+        try {
+            test.main();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         model.setViewName("test.html");
         return model;
     }
