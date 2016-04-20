@@ -45,6 +45,7 @@ public class UserTest {
 //执行查询返回一个唯一 user 对象的 sql
         User user = session.selectOne(statement, "a");
         System.out.println(user);
+        System.out.println(user);
     }
 
 
