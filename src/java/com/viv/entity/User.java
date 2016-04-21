@@ -5,35 +5,18 @@ package com.viv.entity;
  */
 public class User {
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", home='" + home + '\'' +
-                ", tel=" + tel +
+    private Integer id;
+    private String name;
+    private String username;
+    private String password;
 
-                ", email='" + email + '\'' +
-                '}';
+    public Integer getId() {
+        return id;
     }
 
-    public User(){
-
+    public void setId(Integer id) {
+        this.id = id;
     }
-
-    public User(String name,String sex,String home, Integer tel,String email ){
-        this.name = name;
-        this.sex = sex;
-        this.home = home;
-        this.tel = tel;
-        this.email = email;
-    }
-
-    public String name;
-    public String sex;
-    public String home;
-    public Integer tel;
-    public String email;
 
     public String getName() {
         return name;
@@ -43,35 +26,29 @@ public class User {
         this.name = name;
     }
 
-    public String getSex() {
-        return sex;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getHome() {
-        return home;
+    public String getUsername() {
+        return username;
     }
 
-    public void setHome(String home) {
-        this.home = home;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Integer getTel() {
-        return tel;
-    }
-
-    public void setTel(Integer tel) {
-        this.tel = tel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

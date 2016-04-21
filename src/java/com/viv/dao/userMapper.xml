@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.viv.dao.userMapper">
-    <!--
-        根据id查询得到一个user对象
-     -->
-    <select id="getUser" parameterType="String" resultType="com.viv.entity.User">
-        select * from user where name=#{name}
+
+    <!--登录时验证用户是否存在-->
+    <select id="select_by_username_password" parameterType="com.viv.entity.User" resultType="com.viv.entity.User">
+        select * from user
+        where username=#{username} AND password=#{password}
     </select>
+    <!--注册时验证用户是否存在-->
+    <select id="select_by_username" parameterType="com.viv.entity.User" resultType="com.viv.entity.User">
+        select * from user
+        where username=#{username}
+    </select>
+    <!--增加一个user对象-->
+     <insert id="insert" parameterType="com.viv.entity.User" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO user (name,username,password)
+         values (#{name},#{username},#{password})
+     </insert>
+    <!--更新一个user对象-->
+    <update id="update" parameterType="com.viv.entity.User">
+      UPDATE user SET
+      name=#{name},
+      username=#{username},
+      password=#{password}
+      WHERE id=#{id}
+    </update>
+    <!--删除一个user对象-->
+    <delete id="delete" parameterType="int">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
 </mapper>

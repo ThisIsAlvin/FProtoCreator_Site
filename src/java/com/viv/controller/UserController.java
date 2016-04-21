@@ -1,105 +1,100 @@
 package com.viv.controller;
 
-import com.viv.dao.UserTest;
+import com.sun.xml.internal.bind.v2.TODO;
+import com.viv.dao.UserDao;
 import com.viv.entity.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Created by viv on 16-3-28.
+ * Created by viv on 16-4-21.
  */
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-
-    private static Map<String,User> users;
+    private UserDao userDao;
 
     public UserController(){
-        if(users==null){
-            users =new HashMap<String,User>();
+        userDao = new UserDao();
+    }
+
+    /*显示登录页面*/
+    @RequestMapping(value = "login")
+    public String login(){
+        return "login.html";
+    }
+    /*处理登录请求*/
+    @RequestMapping(value = "login",params = "json")
+    public @ResponseBody Map<String,Object> login_json(User user){
+        String result = "error";
+        String message = "error";
+        Map<String,Object> map = new HashMap<String, Object>();
+        if(user.getUsername().equals("")||user.getUsername()==null||user.getPassword().equals("")||user.getPassword()==null){
+            message = "登录信息不全";
+            map.put("result",result);
+            map.put("message",message);
+            return map;
         }
-        users.put("viv1",new User("viv1","man1","GD1",0111111,"11@11.com"));
-        users.put("viv2",new User("viv2","man2","GD2",0111112,"12@11.com"));
-        users.put("viv3",new User("viv3","man3","GD3",0111113,"13@11.com"));
-        users.put("viv4",new User("viv4","man4","GD4",0111114,"14@11.com"));
-    }
-
-    /*显示list页面*/
-    @RequestMapping(value = "/list")
-    public String list(){
-        return "list.jsp";
-    }
-
-    /*请求users数据*/
-    @RequestMapping(value = "/list",params = "json")
-    public @ResponseBody Map<String,User> list_json(){
-
-        return users;
-    }
-
-    /*显示添加user页面*/
-    @RequestMapping(value = "add")
-    public String add(){
-        return "add.jsp";
-    }
-
-    /*处理添加user操作*/
-    @RequestMapping(value = "add",params = "json")
-    public @ResponseBody String add_json(User user){
-        String result = "error";
-        users.put(user.getName(),user);
-        result = "ok";
-        return result;
-    }
-
-    /*删除指定userc操作*/
-    @RequestMapping(value = "/del",params = "json")
-    public @ResponseBody String del(String name){
-        String result = "error";
-        users.remove(name);
-        result = "ok";
-        return result;
-    }
-
-    /*显示修改订制user数据页面*/
-    @RequestMapping(value = "/update")
-    public String update(User user, Model model){
-        model.addAttribute(user);
-        return "update.jsp";
-    }
-
-    /*修改订制user数据操作*/
-    @RequestMapping(value = "update",params = "json")
-    public @ResponseBody String update_json(User user,String oldName){
-        String result = "error";
-        users.remove(oldName);
-        users.put(user.getName(),user);
-        result = "ok";
-        return result;
-
-    }
-
-    @RequestMapping(value = "/list.do")
-    public ModelAndView list(ModelAndView model){
-        User u = new User();
-        u.setName("viv");
-        u.setHome("dd");
-        u.setSex("dd");
-        model.addObject(u);
-        UserTest test = new UserTest();
-        try {
-            test.main();
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<User> u = userDao.selectBy_username_password(user.getUsername(),user.getPassword());
+        if(u.size()>=1){
+//            登录操作
+            result = "success";
+            map.put("result",result);
+            map.put("user",u.get(0));
+            return map;
         }
-        model.setViewName("test.html");
-        return model;
+        message ="未知错误";
+        map.put("result",result);
+        map.put("message",message);
+        return map;
     }
+    /*显示主页页面，合法session*/
+    @RequestMapping(value = "indint i =  ex")
+    public String index(){
+        return "index.html";
+    }
+    /*显示注册页面*/
+    @RequestMapping(value = "register")
+    public String register(){
+        return "register.html";
+    }
+    /*处理注册请求*/
+    @RequestMapping(value = "register",params = "json")
+    public @ResponseBody Map<String,Object> register_json(User user){
+        String result = "error";
+        String message = "error";
+        Map<String,Object> map = new HashMap<String, Object>();
+        if(user.getName().isEmpty()||user.getPassword().isEmpty()||user.getUsername().isEmpty()){
+            message="注册信息不全";
+            map.put("result",result);
+            map.put("message",message);
+            return map;
+        }
+        List<User> u = userDao.selectBy_username(user.getUsername());
+        if(u.size()!=0){
+            message="用户名已注册";
+            map.put("result",result);
+            map.put("message",message);
+            return map;
+        }
+        User us = new User();
+        us.setUsername(user.getUsername());
+        us.setName(user.getName());
+        us.setPassword(user.getPassword());
+        userDao.insert(us);
+        result="success";
+        message="注册成功";
+        map.put("result",result);
+        map.put("message",message);
+        return map;
+
+
+    }
+
 }
