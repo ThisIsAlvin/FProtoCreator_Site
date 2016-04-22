@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class UserController {
     }
     /*处理登录请求*/
     @RequestMapping(value = "login",params = "json")
-    public @ResponseBody Map<String,Object> login_json(User user){
+    public @ResponseBody Map<String,Object> login_json(User user,HttpSession session){
         String result = "error";
         String message = "error";
         Map<String,Object> map = new HashMap<String, Object>();
@@ -44,6 +45,7 @@ public class UserController {
         List<User> u = userDao.selectBy_username_password(user.getUsername(),user.getPassword());
         if(u.size()>=1){
 //            登录操作
+            session.setAttribute("user",u.get(0));
             result = "success";
             map.put("result",result);
             map.put("user",u.get(0));
@@ -55,9 +57,9 @@ public class UserController {
         return map;
     }
     /*显示主页页面，合法session*/
-    @RequestMapping(value = "indint i =  ex")
+    @RequestMapping(value = "login/welcome")
     public String index(){
-        return "index.html";
+        return "login/welcome.html";
     }
     /*显示注册页面*/
     @RequestMapping(value = "register")

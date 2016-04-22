@@ -13,6 +13,7 @@
                     success:function(data){
                         if(data.result=="success"){
                             alert("\n 欢迎："+data.user.username);
+                            window.location.href="/user/login/welcome";
                         }else{
                             alert("result:"+data.result+"\n message:"+data.message);
                         }
