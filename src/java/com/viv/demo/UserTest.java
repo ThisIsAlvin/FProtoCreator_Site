@@ -1,4 +1,4 @@
-package com.viv.dao;
+package com.viv.demo;
 
 import com.viv.entity.User;
 import org.apache.ibatis.io.Resources;

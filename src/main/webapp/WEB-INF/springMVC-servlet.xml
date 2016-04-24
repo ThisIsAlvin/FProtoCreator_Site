@@ -16,8 +16,8 @@
     <!--配置拦截器-->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/user/login/*"/>
-            <bean class="com.viv.inteceptor.UserInteceptor"/>
+            <mvc:mapping path="/login/**"/>
+            <bean class="com.viv.inteceptor.LoginInteceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

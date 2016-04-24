@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更改项目</title>
+    <script type="text/javascript" src="/source/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $("#btn_update").click(function(){
+                $.ajax("/login/project/update?json",{
+                    type:"post",
+                    data:$('#update').serialize(),
+                    success:function(data){
+                        window.location.href="/login/project/list";
+                    },
+                })
+            });
+            $("#btn_back").click(function(){
+                window.location.href="/login/project/list";
+            });
+        })
+    </script>
+</head>
+<body>
+<h2>更改项目</h2>
+    <form id="update">
+        <input type="hidden" name="id" id="id"/>
+        项目名称: <input type="text" name="name"/><br>
+        项目版本: <input type="text" name="version"/><br>
+        <input id="btn_update" type="button" value="提交"/>
+        <input id="btn_back" type="button" value="返回"/>
+    </form>
+</body>
+</html>

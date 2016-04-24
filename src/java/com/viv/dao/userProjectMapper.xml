@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.UserProjectOperation">
+    <!--增加一个UserProject记录-->
+     <insert id="insert" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO user_project (user_id,project_id)
+         values (#{user_id},#{project_id})
+     </insert>
+    <!--根据userId和projectId确定，删除一个UserProject记录-->
+    <delete id="delete" parameterType="java.util.HashMap">
+        DELETE FROM user_project WHERE user_id = #{user_id} AND project_id  = #{project_id}
+    </delete>
+    <!--根据userId和project确定，选择一个userProject记录-->
+    <select id="selectByUseridProjectid" parameterType="java.util.HashMap" resultType="com.viv.entity.User_project">
+        SELECT * FROM user_project
+        WHERE user_id = #{user_id} AND project_id = #{project_id}
+    </select>
+
+</mapper>

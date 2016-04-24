@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加项目</title>
+    <script type="text/javascript" src="/source/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btn_add").click(function(){
+                $.ajax("/login/project/add?json",{
+                    type:"post",
+                    data:$('#add').serialize(),
+                    success:function(data){
+                        window.location.href="/login/project/list";
+                    },
+                })
+            });
+            $("#btn_back").click(function(){
+                window.location.href="/login/project/list";
+            });
+        })
+    </script>
+</head>
+<body>
+<h2>添加项目</h2>
+    <form id="add">
+        项目名称: <input type="text" name="name"/><br>
+        项目版本: <input type="text" name="version"/><br>
+        <input id="btn_add" type="button" value="提交"/>
+        <input id="btn_back" type="button" value="返回"/>
+    </form>
+</body>
+</html>

@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Created by viv on 16-4-22.
  */
-public class UserInteceptor implements HandlerInterceptor {
+public class LoginInteceptor implements HandlerInterceptor {
     public void afterCompletion(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
 
     }
@@ -17,7 +17,7 @@ public class UserInteceptor implements HandlerInterceptor {
 
     public boolean preHandle(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse, Object o) throws Exception {
         if(httpServletRequest.getSession().getAttribute("user") == null){
-           httpServletResponse.sendRedirect("/user/login");
+           httpServletResponse.sendRedirect("/index/login");
             return false;
         }
         return true;
