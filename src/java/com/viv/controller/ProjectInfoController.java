@@ -95,9 +95,9 @@ public class ProjectInfoController {
     }
     /*显示修改页面*/
     @RequestMapping(value = "/project/update")
-    public String update(User_project user_project,Model model){
-        model.addAttribute(user_project);
-        return "/login/updateProject.html";
+    public String update(Project_info project_info,Model model){
+        model.addAttribute(project_info);
+        return "login/updateProject.jsp";
     }
     /*处理修改请求*/
     @RequestMapping(value = "/project/update",params = "json")
