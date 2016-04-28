@@ -5,6 +5,19 @@
     <title>个人首页</title>
     <script type="text/javascript" src="/source/jquery.js"></script>
     <script type="text/javascript">
+
+        function getRootPath(){
+            var strFullPath=window.document.location.href;
+            var strPath=window.document.location.pathname;
+            var pos=strFullPath.indexOf(strPath);
+            var prePath=strFullPath.substring(0,pos);
+            var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1);
+            return(prePath+postPath);
+        }
+        var webpath=getRootPath(); //webpath就是目录路径变量
+
+        alert(webpath);
+
         $(document).ready(function(){
             $("#mytable").append("<tr id='title'><th>项目编号</th><th>项目名称</th><th>项目版本</th></tr>");
             var btn_add="<input type='button' id='btn_add' value='添加'/>";
