@@ -15,5 +15,10 @@
         SELECT * FROM user_project
         WHERE user_id = #{user_id} AND project_id = #{project_id}
     </select>
+    <!--根据UserId，返回记录数量-->
+    <select id="countByUserId" parameterType="int" resultType="int">
+        SELECT count(id) FROM user_project
+        WHERE user_id = #{user_id}
+    </select>
 
 </mapper>

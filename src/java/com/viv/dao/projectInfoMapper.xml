@@ -46,4 +46,20 @@
             <result property="version" column="p_i_version"/>
         </association>
     </resultMap>
+    <!--根据userId以及分页信息，分页查询该用户所有的project_info实体-->
+    <select id="selectByUserId_page" parameterType="java.util.Map" resultMap="user_project_result">
+        SELECT
+        u.id as u_p_id,
+        u.user_id as u_p_user_id,
+        u.project_id as u_p_project_id,
+        p.name as p_i_name,
+        p.version as p_i_version
+        FROM user_project u JOIN project_info p
+        ON u.project_id = p.id
+        AND u.user_id = #{id}
+        ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+        <if test="page.pageStart>-1 and page.pageSize>-1">
+            limit #{page.pageStart},#{page.pageSize}
+        </if>
+    </select>
 </mapper>

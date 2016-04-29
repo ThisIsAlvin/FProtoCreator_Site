@@ -1,9 +1,10 @@
 package com.viv.controller;
 
-import com.viv.entity.Project_info;
+import com.viv.Config;
+import com.viv.dao.UserProjectOperation;
+import com.viv.entity.*;
 import com.viv.service.ProjectInfoService;
-import com.viv.entity.User;
-import com.viv.entity.User_project;
+import com.viv.service.UserProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,10 @@ import java.util.Map;
 @RequestMapping(value = "/login")
 public class ProjectInfoController {
     private ProjectInfoService projectInfoService;
+    private UserProjectService userProjectService;
     public ProjectInfoController(){
         projectInfoService = new ProjectInfoService();
+        userProjectService = new UserProjectService();
     }
 
     /*显示主页页面，合法session*/
@@ -33,17 +36,25 @@ public class ProjectInfoController {
 
     /*处理获取projectInfo列表请求*/
     @RequestMapping(value = "/project/list" , params = "json")
-    public @ResponseBody Map<String,Object> list_json(HttpSession session){
+    public @ResponseBody Map<String,Object> list_json(HttpSession session,String pageIndex){
         String result = "error";
         String  message = "error";
         Map<String,Object> map = new HashMap<String,Object>();
         List<User_project> projects = null;
         User user = (User) session.getAttribute("user");
+        int index = Integer.parseInt(pageIndex);
         if(user != null){
-            projects = projectInfoService.selectByUserId(user.getId());
-            result = "success";
+            int count = userProjectService.countByUserId(user.getId());
+            int maxIndex = count / Config.PAGE_SIZE;
+            if (index > -1 && index <= maxIndex) {
+                Page page = new Page(SortDirectionEnum.ASC.toString(),"u_p_id",index, Config.PAGE_SIZE);
+                projects = projectInfoService.selectByUserId_page(page,user.getId());
+                result = "success";
+                map.put("result",result);
+                map.put("projects",projects);
+                return map;
+            }
             map.put("result",result);
-            map.put("projects",projects);
             return map;
         }
         message = "未知错误";
@@ -52,6 +63,25 @@ public class ProjectInfoController {
         return map;
     }
 
+    /*处理查询当前用户项目条数请求*/
+    @RequestMapping(value = "/project/count" , params = "json")
+    public @ResponseBody Map<String,Object> count_json(HttpSession session){
+        String result = "error";
+        String  message = "error";
+        Map<String,Object> map = new HashMap<String,Object>();
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            int count = userProjectService.countByUserId(user.getId());
+            result = "success";
+            map.put("result",result);
+            map.put("count",count);
+            return map;
+        }
+        message = "未知错误";
+        map.put("result",result);
+        map.put("message",message);
+        return map;
+    }
     /*请求添加页面*/
     @RequestMapping(value = "/project/add")
     public String add(){

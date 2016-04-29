@@ -2,6 +2,7 @@ package com.viv.service;
 
 import com.viv.dao.ProjectInfoOperation;
 import com.viv.dao.UserProjectOperation;
+import com.viv.entity.Page;
 import com.viv.entity.Project_info;
 import com.viv.entity.User;
 import com.viv.entity.User_project;
@@ -107,5 +108,22 @@ public class ProjectInfoService {
         }finally {
             session.close();
         }
+    }
+
+     /*根据userId以及分页信息，分页查询该用户所有的project_info实体*/
+    public List<User_project> selectByUserId_page(Page page,int userId) {
+        SqlSession session = sessionFactory.openSession();
+        try{
+            ProjectInfoOperation projectInfoOperation = session.getMapper(ProjectInfoOperation.class);
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",userId);
+            map.put("page",page);
+            List<User_project> user_projects = projectInfoOperation.selectByUserId_page(map);
+            session.commit();
+            return user_projects;
+        }finally {
+            session.close();
+        }
+
     }
 }

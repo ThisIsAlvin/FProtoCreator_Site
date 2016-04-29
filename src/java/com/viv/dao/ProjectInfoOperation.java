@@ -1,9 +1,11 @@
 package com.viv.dao;
 
+import com.viv.entity.Page;
 import com.viv.entity.Project_info;
 import com.viv.entity.User_project;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by viv on 16-4-23.
@@ -20,5 +22,7 @@ public interface ProjectInfoOperation {
     public Project_info selectById(Integer id);
     /*根据userId查询该用户所有的project_info实体*/
     public List<User_project> selectByUserId(int userId);
+    /*根据userId以及分页信息，分页查询该用户所有的project_info实体*/
+    public List<User_project> selectByUserId_page(Map map);
 
 }

@@ -17,5 +17,7 @@ public interface UserProjectOperation {
     public void delete(Map map);
     /*根据userId和project确定，选择一个userProject记录*/
     public List<User_project> selectByUseridProjectid(Map map);
+    /*根据UserId返回记录数量*/
+    public int countByUserId(int user_id);
 
 }

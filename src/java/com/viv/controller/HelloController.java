@@ -1,5 +1,7 @@
 package com.viv.controller;
 
+import com.viv.entity.Page;
+import com.viv.entity.SortDirectionEnum;
 import com.viv.service.ProjectInfoService;
 import com.viv.entity.Project_info;
 import com.viv.entity.User_project;
@@ -57,6 +59,12 @@ public class HelloController {
     public @ResponseBody List<User_project> index6(){
         ProjectInfoService projectInfoService = new ProjectInfoService();
         List<User_project> projects = projectInfoService.selectByUserId(1);
+        return projects;
+    }
+    @RequestMapping(value = "/test/getUserProject_page")
+    public @ResponseBody List<User_project> index7(){
+        ProjectInfoService projectInfoService = new ProjectInfoService();
+        List<User_project> projects = projectInfoService.selectByUserId_page(new Page(SortDirectionEnum.DESC.toString(),"u_p_id",1,2),1);
         return projects;
     }
 
