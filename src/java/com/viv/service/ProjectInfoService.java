@@ -36,7 +36,7 @@ public class ProjectInfoService {
         return sessionFactory;
     }
     /*向project_info添加一条记录,同时向user_project添加一条记录*/
-    public void insert(Project_info project_info ,int userId){
+    public void insert(Project_info project_info ,Long userId){
         SqlSession session = sessionFactory.openSession();
         try {
             ProjectInfoOperation projectInfoOperation = session.getMapper(ProjectInfoOperation.class);
@@ -52,7 +52,7 @@ public class ProjectInfoService {
         }
     }
     /*根据id删除一条记录,以及与这条记录关联的User_project记录*/
-    public void delete(Integer projectId , Integer userId){
+    public void delete(Integer projectId , Long userId){
         SqlSession  session = sessionFactory.openSession();
         try{
             ProjectInfoOperation projectInfoOperation = session.getMapper(ProjectInfoOperation.class);
@@ -68,7 +68,7 @@ public class ProjectInfoService {
         }
     }
     /*根据id选择修改一个实体,需要验证该实体是否是该用户的*/
-    public void update(Project_info project_info,Integer userId){
+    public void update(Project_info project_info,Long userId){
         SqlSession session = sessionFactory.openSession();
         try{
             UserProjectOperation userProjectOperation = session.getMapper(UserProjectOperation.class);
@@ -111,7 +111,7 @@ public class ProjectInfoService {
     }
 
      /*根据userId以及分页信息，分页查询该用户所有的project_info实体*/
-    public List<User_project> selectByUserId_page(Page page,int userId) {
+    public List<User_project> selectByUserId_page(Page page,Long userId) {
         SqlSession session = sessionFactory.openSession();
         try{
             ProjectInfoOperation projectInfoOperation = session.getMapper(ProjectInfoOperation.class);

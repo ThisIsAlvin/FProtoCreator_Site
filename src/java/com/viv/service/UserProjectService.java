@@ -37,7 +37,7 @@ public class UserProjectService {
     }
 
     /*根据userId，返回记录数量*/
-    public int countByUserId(int user_id) {
+    public int countByUserId(Long user_id) {
         SqlSession session = sessionFactory.openSession();
         try{
             UserProjectOperation userProjectOperation = session.getMapper(UserProjectOperation.class);

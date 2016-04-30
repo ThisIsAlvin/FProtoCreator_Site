@@ -36,23 +36,23 @@ public class HelloController {
         Project_info project_info = new Project_info();
         project_info.setName("大风打分");
         project_info.setVersion(1);
-        projectInfoService.insert(project_info,1);
+        projectInfoService.insert(project_info,new Long(1));
         return "insert";
     }
     @RequestMapping(value = "/test/delete")
     public @ResponseBody String index4(){
         ProjectInfoService projectInfoService = new ProjectInfoService();
-        projectInfoService.delete(1,1);
+        projectInfoService.delete(1,new Long(1));
         return "delete";
     }
     @RequestMapping(value = "/test/update")
     public @ResponseBody String index5(){
         ProjectInfoService projectInfoService = new ProjectInfoService();
         Project_info project_info = new Project_info();
-        project_info.setId(3);
+        project_info.setId(new Long(3));
         project_info.setName("大鬼gui");
         project_info.setVersion(2);
-        projectInfoService.update(project_info,1);
+        projectInfoService.update(project_info,new Long(1));
         return "update";
     }
     @RequestMapping(value = "/test/getUserProject")
@@ -64,7 +64,7 @@ public class HelloController {
     @RequestMapping(value = "/test/getUserProject_page")
     public @ResponseBody List<User_project> index7(){
         ProjectInfoService projectInfoService = new ProjectInfoService();
-        List<User_project> projects = projectInfoService.selectByUserId_page(new Page(SortDirectionEnum.DESC.toString(),"u_p_id",1,2),1);
+        List<User_project> projects = projectInfoService.selectByUserId_page(new Page(SortDirectionEnum.DESC.toString(),"u_p_id",1,2),new Long(1));
         return projects;
     }
 

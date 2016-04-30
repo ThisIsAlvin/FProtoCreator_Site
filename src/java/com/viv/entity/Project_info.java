@@ -4,15 +4,15 @@ package com.viv.entity;
  * Created by viv on 16-4-23.
  */
 public class Project_info {
-    private Integer id;
+    private Long id;
     private String name;
     private Integer version;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
