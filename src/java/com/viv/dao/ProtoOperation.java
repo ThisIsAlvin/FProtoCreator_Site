@@ -3,6 +3,7 @@ package com.viv.dao;
 import com.viv.entity.Proto;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by viv on 16-4-30.
@@ -25,5 +26,8 @@ public interface ProtoOperation {
 
     /*根据project_id，返回记录数量*/
     public int countByProjectId(Long project_id);
+
+    /*动态查询*/
+    public List<Proto> select(Map map);
 
 }

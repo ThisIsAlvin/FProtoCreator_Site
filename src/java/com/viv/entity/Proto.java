@@ -11,19 +11,6 @@ public class Proto {
     private String namespace;
     private String describes;
 
-    public Proto(){
-
-    }
-
-    public Proto(Integer cmd, String describes, String name, String namespace, Long project_id) {
-        this.cmd = cmd;
-        this.describes = describes;
-        this.name = name;
-        this.namespace = namespace;
-        this.project_id = project_id;
-    }
-
-
     public Integer getCmd() {
         return cmd;
     }

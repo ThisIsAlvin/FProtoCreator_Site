@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人首页</title>
+    <script type="text/javascript" src="/source/jquery.js"></script>
+    <script type="text/javascript">
+
+            function getPage(pageIndex) {
+                $("#mytable").empty();
+
+                $.ajax("/login/project/list?json",{
+                    type:"post",
+                    data:{"pageIndex":pageIndex},
+                    success:function(data){
+
+                        $("#mytable").append("<tr id='title'><th>项目编号</th><th>项目名称</th><th>项目版本</th></tr>");
+                        var btn_add="<input type='button' id='btn_add' value='添加'/>";
+                        $("#title").append(btn_add);
+                        $("#btn_add").click(function(){
+                            /*添加的按钮动作*/
+                            window.location.href="/login/project/add";
+                        });
+
+                        if(data.result=="success"){
+                            for(var i = 0; i < data.projects.length; i++){
+                                var content="<tr id='content'><td>"+data.projects[i].project_info.id+"</td><td>"+data.projects[i].project_info.name+"</td><td>"+data.projects[i].project_info.version+"</td></tr>";
+                                var btn_del="<input type='button' id='btn_del' value='删除'/>";
+                                var btn_update="<input type='button' id='btn_update' value='修改'/>";
+                                $("#title").after(content);
+                                $("#content").append(btn_update);
+                                $("#content").append(btn_del);
+
+
+                                $("#btn_del").click(data.projects[i].project_info,function(event){
+                                    /*删除的动作*/
+                                    $.post("/login/project/delete?json","projectInfoId="+event.data.id,function(){
+                                        window.location.reload();
+                                    });
+                                });
+
+                                $("#btn_update").click(data.projects[i].project_info,function(event){
+                                    /*更新的操作*/
+                                    $("html").load("/login/project/update",event.data,function(){
+
+                                    });
+                                });
+
+                            }
+                        }else{
+                            alert("result:"+data.result+"\n message:"+data.message);
+                        }
+                    }
+                });
+
+            }
+        $(document).ready(function(){
+
+            var index = 0;
+            var count = 0;
+            var maxIndex = 0;
+            $.post("/login/project/count?json","",function(data){
+                if(data.result == "success") {
+                    count = data.count;
+                    maxIndex = count/2;
+                }
+            });
+
+            $("#pre-page").click(function(){
+                index--;
+                if(index>-1) {
+                    getPage(index);
+                }else {
+                    index++;
+                }
+            });
+            $("#next-page").click(function(){
+                index++;
+                if(index< maxIndex) {
+                    getPage(index);
+                }else {
+                    index--;
+                }
+            });
+
+           getPage(index);
+
+
+        });
+    </script>
+
+</head>
+<body>
+<h2>我的项目</h2>
+<form id="projects">
+    <table id="mytable" border="1">
+
+    </table>
+    <input type="button" id="pre-page" value="上一页">
+    <input type="button" id="next-page" value="下一页">
+</form>
+</body>
+</html>

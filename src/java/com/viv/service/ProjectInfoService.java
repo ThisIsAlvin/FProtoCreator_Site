@@ -85,6 +85,26 @@ public class ProjectInfoService {
             session.close();
         }
     }
+
+    /*检验一个project_id是否和一个user_id处于同一条记录*/
+    public boolean checkProject_id(Long project_id,Long user_id) {
+        SqlSession session = sessionFactory.openSession();
+        try{
+            UserProjectOperation userProjectOperation = session.getMapper(UserProjectOperation.class);
+            Map map = new HashMap();
+            map.put("user_id",user_id);
+            map.put("project_id",project_id);
+            List<User_project> projects = userProjectOperation.selectByUseridProjectid(map);
+            session.commit();
+            if(projects.size()>=1){
+                return true;
+            }
+            return false;
+        }finally {
+            session.close();
+        }
+    }
+
     /*根据id查询一个实体*/
     public Project_info selectById(Integer id){
         SqlSession session = sessionFactory.openSession();

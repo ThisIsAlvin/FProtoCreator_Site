@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by viv on 16-4-30.
@@ -117,6 +118,21 @@ public class ProtoService {
 
             session.commit();
             return count;
+        }finally {
+            session.close();
+        }
+    }
+
+    /*动态条件查询*/
+    public List<Proto> select(Map map) {
+        SqlSession session = sessionFactory.openSession();
+        try {
+            ProtoOperation protoOperation = session.getMapper(ProtoOperation.class);
+
+            List<Proto> protos = protoOperation.select(map);
+
+            session.commit();
+            return protos;
         }finally {
             session.close();
         }
