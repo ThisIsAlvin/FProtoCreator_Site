@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.ProtoOperation">
+
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.Proto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO proto (project_id,cmd,name,namespace,describes)
+        VALUES (#{project_id},#{cmd},#{name},#{namespace},#{describes})
+    </insert>
+    <!--根据id删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM proto
+        WHERE id=#{id}
+    </delete>
+    <!--根据id修改一个实体-->
+    <update id="update" parameterType="com.viv.entity.Proto">
+        UPDATE proto
+        SET project_id=#{project_id},cmd=#{cmd},name=#{name},namespace=#{namespace},describes=#{describes}
+        WHERE id=#{id}
+    </update>
+    <!--根据id查询一个实体 -->
+    <select id="selectById" parameterType="java.lang.Long" resultType="com.viv.entity.Proto">
+        SELECT * FROM proto
+        WHERE id=#{id}
+    </select>
+    <!--根据project_id查询实体-->
+    <select id="selectByProjectId" parameterType="java.lang.Long" resultType="com.viv.entity.Proto">
+        SELECT * FROM proto
+        WHERE project_id=#{project_id}
+    </select>
+    <!--根据project_id，返回记录数量-->
+    <select id="countByProjectId" parameterType="java.lang.Long" resultType="int">
+        SELECT count(id) FROM proto
+        WHERE project_id = #{project_id}
+    </select>
+</mapper>

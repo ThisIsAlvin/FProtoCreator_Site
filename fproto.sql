@@ -45,7 +45,7 @@ CREATE TABLE `proto` (
   `cmd` int(11) unsigned NOT NULL,
   `name` text NOT NULL,
   `namespace` text,
-  `describe` text,
+  `describes` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 

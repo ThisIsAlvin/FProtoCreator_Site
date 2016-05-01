@@ -9,7 +9,20 @@ public class Proto {
     private Integer cmd;
     private String name;
     private String namespace;
-    private String describe;
+    private String describes;
+
+    public Proto(){
+
+    }
+
+    public Proto(Integer cmd, String describes, String name, String namespace, Long project_id) {
+        this.cmd = cmd;
+        this.describes = describes;
+        this.name = name;
+        this.namespace = namespace;
+        this.project_id = project_id;
+    }
+
 
     public Integer getCmd() {
         return cmd;
@@ -19,12 +32,12 @@ public class Proto {
         this.cmd = cmd;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescribes() {
+        return describes;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescribes(String describes) {
+        this.describes = describes;
     }
 
     public Long getId() {

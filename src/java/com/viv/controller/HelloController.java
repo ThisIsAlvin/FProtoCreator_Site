@@ -1,14 +1,13 @@
 package com.viv.controller;
 
-import com.viv.entity.Page;
-import com.viv.entity.SortDirectionEnum;
+import com.viv.entity.*;
 import com.viv.service.ProjectInfoService;
-import com.viv.entity.Project_info;
-import com.viv.entity.User_project;
+import com.viv.service.ProtoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ValueConstants;
 
 import java.util.List;
 
@@ -68,5 +67,48 @@ public class HelloController {
         return projects;
     }
 
+    @RequestMapping(value = "/test/proto/insert")
+    public @ResponseBody String index8(){
+        ProtoService service = new ProtoService();
+        service.insert(new Proto(1,"测试describe","测试name","测试namespace",new Long(1)));
+        return "insert";
+    }
+
+    @RequestMapping(value = "/test/proto/delete")
+    public @ResponseBody String index9() {
+        ProtoService service = new ProtoService();
+        service.delete(new Long(11));
+        return "delete";
+    }
+
+    @RequestMapping(value = "/test/proto/update")
+    public @ResponseBody String index10() {
+        ProtoService service = new ProtoService();
+        Proto p = new Proto(1,"测describe","测name","测namespace",new Long(1));
+        p.setId(new Long(11));
+        service.update(p);
+        return "update";
+    }
+
+    @RequestMapping(value = "/test/proto/selectById")
+    public @ResponseBody Proto index11() {
+        ProtoService service = new ProtoService();
+        Proto proto = service.selectById(new Long(1));
+        return proto;
+    }
+
+    @RequestMapping(value = "/test/proto/selectByProjectId")
+    public @ResponseBody List<Proto> index12(){
+        ProtoService service = new ProtoService();
+        List<Proto> protos = service.selectByProjectId(new Long(1));
+        return protos;
+    }
+
+    @RequestMapping(value = "/test/proto/count")
+    public @ResponseBody int index13(){
+        ProtoService service = new ProtoService();
+        int count = service.countByProjectId(new Long(1));
+        return count;
+    }
 
 }

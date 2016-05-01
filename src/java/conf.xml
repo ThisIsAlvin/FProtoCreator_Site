@@ -17,5 +17,7 @@
         <mapper resource="com/viv/dao/userMapper.xml"/>
         <mapper resource="com/viv/dao/projectInfoMapper.xml"/>
         <mapper resource="com/viv/dao/userProjectMapper.xml"/>
+        <mapper resource="com/viv/dao/protoMapper.xml"/>
+        <mapper resource="com/viv/dao/protoFieldMapper.xml"/>
     </mappers>
 </configuration>
