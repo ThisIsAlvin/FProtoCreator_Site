@@ -1,6 +1,5 @@
 package com.viv.service;
 
-import com.viv.dao.ProjectInfoOperation;
 import com.viv.dao.ProtoOperation;
 import com.viv.entity.Proto;
 import org.apache.ibatis.io.Resources;
@@ -63,12 +62,12 @@ public class ProtoService {
     }
 
     /*修改一个实体*/
-    public void update(Proto proto) {
+    public void updateById(Proto proto) {
         SqlSession session = sessionFactory.openSession();
         try {
             ProtoOperation protoOperation = session.getMapper(ProtoOperation.class);
 
-            protoOperation.update(proto);
+            protoOperation.updateBy(proto);
 
             session.commit();
         } finally {
@@ -137,5 +136,21 @@ public class ProtoService {
             session.close();
         }
     }
+
+    /*动态条件更新*/
+    public int update(Proto proto) {
+        SqlSession session = sessionFactory.openSession();
+        try {
+            ProtoOperation protoOperation = session.getMapper(ProtoOperation.class);
+
+            int count = protoOperation.update(proto);
+
+            session.commit();
+            return count;
+        } finally {
+            session.close();
+        }
+    }
+
 
 }

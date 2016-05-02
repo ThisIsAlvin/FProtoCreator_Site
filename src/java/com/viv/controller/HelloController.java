@@ -127,4 +127,15 @@ public class HelloController {
        List<Proto> protos = service.select(map);
         return protos;
     }
+
+    @RequestMapping(value = "/test/proto/update")
+    public @ResponseBody String index10() {
+        ProtoService service = new ProtoService();
+        Proto p = new Proto();
+        p.setId(new Long(14));
+        p.setName("562222");
+        service.update(p);
+        return "update";
+    }
+
 }

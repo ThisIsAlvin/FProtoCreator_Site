@@ -16,7 +16,7 @@ public interface ProtoOperation {
     public void delete(Long id);
 
     /*修改一个实体*/
-    public void update(Proto proto);
+    public void updateBy(Proto proto);
 
     /*根据id查询一个实体*/
     public Proto selectById(Long id);
@@ -29,5 +29,8 @@ public interface ProtoOperation {
 
     /*动态查询*/
     public List<Proto> select(Map map);
+
+    /*动态更新*/
+    public int update(Proto proto);
 
 }

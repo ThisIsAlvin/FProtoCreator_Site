@@ -13,7 +13,7 @@
         WHERE id=#{id}
     </delete>
     <!--根据id修改一个实体-->
-    <update id="update" parameterType="com.viv.entity.Proto">
+    <update id="updateBy" parameterType="com.viv.entity.Proto">
         UPDATE proto
         SET project_id=#{project_id},cmd=#{cmd},name=#{name},namespace=#{namespace},describes=#{describes}
         WHERE id=#{id}
@@ -85,4 +85,26 @@
             </if>
         </if>
     </select>
+    <!--动态更新-->
+    <update id="update" parameterType="com.viv.entity.Proto">
+        UPDATE proto
+        <set>
+            <if test="project_id != null and project_id != ''">
+                project_id = #{project_id},
+            </if>
+            <if test="cmd != null and cmd != '' ">
+                cmd = #{cmd},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="namespace != null">
+                namespace = #{namespace},
+            </if>
+            <if test="describes != null">
+                describes = #{describes}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

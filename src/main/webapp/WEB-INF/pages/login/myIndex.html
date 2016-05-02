@@ -27,9 +27,11 @@
                                 var content="<tr id='content'><td>"+data.projects[i].project_info.id+"</td><td>"+data.projects[i].project_info.name+"</td><td>"+data.projects[i].project_info.version+"</td></tr>";
                                 var btn_del="<input type='button' id='btn_del' value='删除'/>";
                                 var btn_update="<input type='button' id='btn_update' value='修改'/>";
+                                var btn_details="<input type='button' id='btn_details' value='详情'/>";
                                 $("#title").after(content);
                                 $("#content").append(btn_update);
                                 $("#content").append(btn_del);
+                                $("#content").append(btn_details);
 
 
                                 $("#btn_del").click(data.projects[i].project_info,function(event){
@@ -44,6 +46,12 @@
                                     $("html").load("/login/project/update",event.data,function(){
 
                                     });
+                                });
+
+                                $("#btn_details").click(data.projects[i].project_info,function(event){
+                                    /*详情的操作*/
+                                    window.location.href = "/login/proto/list?project_id="+event.data.id;
+
                                 });
 
                             }
