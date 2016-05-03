@@ -2,6 +2,7 @@ package com.viv.controller;
 
 import com.viv.entity.*;
 import com.viv.service.ProjectInfoService;
+import com.viv.service.ProtoFieldService;
 import com.viv.service.ProtoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -118,8 +119,7 @@ public class HelloController {
         ProtoService service = new ProtoService();
        Map<String,Object> map = new HashMap<>();
        Proto proto = new Proto();
-       proto.setProject_id(new Long(1));
-       proto.setDescribes("%登录%");
+       proto.setId(new Long(1));
        Page page = new Page(SortDirectionEnum.DESC.toString(),"id",0,3);
        map.put("proto",proto);
 //       map.put("page",page);
@@ -136,6 +136,20 @@ public class HelloController {
         p.setName("562222");
         service.update(p);
         return "update";
+    }
+
+    @RequestMapping(value = "/test/proto_field/select")
+    public @ResponseBody List<Proto_field> index15() {
+        ProtoFieldService service = new ProtoFieldService();
+        Map<String,Object> map = new HashMap<>();
+        Proto_field proto_field = new Proto_field();
+        proto_field.setName("Value");
+        Page page = new Page(SortDirectionEnum.DESC.toString(),"id",0,2);
+        map.put("proto_field",proto_field);
+//        map.put("page",page);
+        map.put("like",1);
+        List<Proto_field> protoFields = service.select(map);
+        return protoFields;
     }
 
 }

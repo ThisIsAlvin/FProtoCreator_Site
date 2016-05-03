@@ -126,6 +126,19 @@ public class ProtoService {
     public List<Proto> select(Map map) {
         SqlSession session = sessionFactory.openSession();
         try {
+            /*数据处理*/
+            if (map.containsKey("like") && map.containsKey("proto")) {
+                Proto proto = (Proto) map.get("proto");
+                if (proto.getName() != null) {
+                    proto.setName("%"+proto.getName()+"%");
+                }
+                if (proto.getNamespace() != null) {
+                    proto.setNamespace("%"+proto.getNamespace()+"%");
+                }
+                if (proto.getDescribes() != null) {
+                    proto.setDescribes("%"+proto.getDescribes()+"%");
+                }
+            }
             ProtoOperation protoOperation = session.getMapper(ProtoOperation.class);
 
             List<Proto> protos = protoOperation.select(map);
