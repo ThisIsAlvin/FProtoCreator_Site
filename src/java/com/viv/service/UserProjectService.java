@@ -24,7 +24,7 @@ public class UserProjectService {
     private static Reader reader;
     private static SqlSessionFactory sessionFactory;
 
-    static{
+    static {
         try {
             reader = Resources.getResourceAsReader(resource);
             sessionFactory = new SqlSessionFactoryBuilder().build(reader);
@@ -32,22 +32,39 @@ public class UserProjectService {
             e.printStackTrace();
         }
     }
-    public static SqlSessionFactory getSession(){
+
+    public static SqlSessionFactory getSession() {
         return sessionFactory;
     }
 
     /*根据userId，返回记录数量*/
     public int countByUserId(Long user_id) {
         SqlSession session = sessionFactory.openSession();
-        try{
+        try {
             UserProjectOperation userProjectOperation = session.getMapper(UserProjectOperation.class);
 
             int count = userProjectOperation.countByUserId(user_id);
 
             session.commit();
             return count;
-        }finally {
+        } finally {
             session.close();
         }
     }
+
+//    /*动态查询*/
+//    public List<User_project> select(Map map) {
+//        SqlSession session = sessionFactory.openSession();
+//        try {
+//            UserProjectOperation userProjectOperation = session.getMapper(UserProjectOperation.class);
+//
+//            List<User_project> user_projects = userProjectOperation.select(map);
+//
+//            session.commit();
+//
+//            return user_projects;
+//        }finally {
+//            session.commit();
+//        }
+//    }
 }

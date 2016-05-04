@@ -13,11 +13,18 @@ public interface UserProjectOperation {
 
     /*添加一条记录*/
     public void insert(Map map);
+
     /*根据userId和projectId确定，删除一个UserProject记录*/
     public void delete(Map map);
+
     /*根据userId和project确定，选择一个userProject记录*/
     public List<User_project> selectByUseridProjectid(Map map);
+
     /*根据UserId返回记录数量*/
     public int countByUserId(Long user_id);
+
+    /*动态查询*/
+    public List<User_project> select(Map map);
+
 
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>协议详情</title>
+    <title>字段</title>
     <script type="text/javascript" src="/source/jquery.js"></script>
     <script type="text/javascript">
 
@@ -97,7 +97,7 @@
 
 </head>
 <body>
-<h2>协议详情</h2>
+<h2>字段</h2>
 <form id="projects">
     <table id="mytable" border="1">
 

@@ -7,49 +7,53 @@
         SELECT * FROM proto_field
         <where>
             <if test="like == null">
-                <if test="proto_field.id != null">
-                    id = #{proto_field.id}
-                </if>
-                <if test="proto_field.proto_id != null">
-                    proto_id = #{proto_field.proto_id}
-                </if>
-                <if test="proto_field.name != null">
-                    name = #{proto_field.name}
-                </if>
-                <if test="proto_field.type != null">
-                    type = #{proto_field.type}
-                </if>
-                <if test="proto_field.extend != null">
-                    extend = #{proto_field.extend}
-                </if>
-                <if test="proto_field.is_array != null">
-                    is_array = #{proto_field.is_array}
-                </if>
-                <if test="proto_field.remarks != null">
-                    remarks = #{proto_field.remarks}
+                <if test="proto_field != null">
+                    <if test="proto_field.id != null">
+                        id = #{proto_field.id}
+                    </if>
+                    <if test="proto_field.proto_id != null">
+                        proto_id = #{proto_field.proto_id}
+                    </if>
+                    <if test="proto_field.name != null">
+                        name = #{proto_field.name}
+                    </if>
+                    <if test="proto_field.type != null">
+                        type = #{proto_field.type}
+                    </if>
+                    <if test="proto_field.extend != null">
+                        extend = #{proto_field.extend}
+                    </if>
+                    <if test="proto_field.is_array != null">
+                        is_array = #{proto_field.is_array}
+                    </if>
+                    <if test="proto_field.remarks != null">
+                        remarks = #{proto_field.remarks}
+                    </if>
                 </if>
             </if>
             <if test="like != null">
-                <if test="proto_field.id != null">
-                    id LIKE #{proto_field.id}
-                </if>
-                <if test="proto_field.proto_id != null">
-                    proto_id LIKE #{proto_field.proto_id}
-                </if>
-                <if test="proto_field.name != null">
-                    name LIKE #{proto_field.name}
-                </if>
-                <if test="proto_field.type != null">
-                    type LIKE #{proto_field.type}
-                </if>
-                <if test="proto_field.extend != null">
-                    extend LIKE #{proto_field.extend}
-                </if>
-                <if test="proto_field.is_array != null">
-                    is_array LIKE #{proto_field.is_array}
-                </if>
-                <if test="proto_field.remarks != null">
-                    remarks LIKE #{proto_field.remarks}
+                <if test="proto_field != null">
+                    <if test="proto_field.id != null">
+                        id LIKE #{proto_field.id}
+                    </if>
+                    <if test="proto_field.proto_id != null">
+                        proto_id LIKE #{proto_field.proto_id}
+                    </if>
+                    <if test="proto_field.name != null">
+                        name LIKE #{proto_field.name}
+                    </if>
+                    <if test="proto_field.type != null">
+                        type LIKE #{proto_field.type}
+                    </if>
+                    <if test="proto_field.extend != null">
+                        extend LIKE #{proto_field.extend}
+                    </if>
+                    <if test="proto_field.is_array != null">
+                        is_array LIKE #{proto_field.is_array}
+                    </if>
+                    <if test="proto_field.remarks != null">
+                        remarks LIKE #{proto_field.remarks}
+                    </if>
                 </if>
             </if>
         </where>

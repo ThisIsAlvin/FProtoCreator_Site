@@ -3,7 +3,7 @@
 <%@ page isELIgnored="false"%>
 <html>
 <head>
-    <title>更改项目</title>
+    <title>更改协议</title>
     <script type="text/javascript" src="/source/jquery.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){

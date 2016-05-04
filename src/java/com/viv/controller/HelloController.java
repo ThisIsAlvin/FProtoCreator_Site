@@ -41,22 +41,22 @@ public class HelloController {
         projectInfoService.insert(project_info,new Long(1));
         return "insert";
     }
-    @RequestMapping(value = "/test/delete")
+/*    @RequestMapping(value = "/test/delete")
     public @ResponseBody String index4(){
         ProjectInfoService projectInfoService = new ProjectInfoService();
         projectInfoService.delete(1,new Long(1));
         return "delete";
-    }
-    @RequestMapping(value = "/test/update")
-    public @ResponseBody String index5(){
-        ProjectInfoService projectInfoService = new ProjectInfoService();
-        Project_info project_info = new Project_info();
-        project_info.setId(new Long(3));
-        project_info.setName("大鬼gui");
-        project_info.setVersion(2);
-        projectInfoService.update(project_info,new Long(1));
-        return "update";
-    }
+    }*/
+//    @RequestMapping(value = "/test/update")
+//    public @ResponseBody String index5(){
+//        ProjectInfoService projectInfoService = new ProjectInfoService();
+//        Project_info project_info = new Project_info();
+//        project_info.setId(new Long(3));
+//        project_info.setName("大鬼gui");
+//        project_info.setVersion(2);
+//        projectInfoService.update(project_info,new Long(1));
+//        return "update";
+//    }
     @RequestMapping(value = "/test/getUserProject")
     public @ResponseBody List<User_project> index6(){
         ProjectInfoService projectInfoService = new ProjectInfoService();

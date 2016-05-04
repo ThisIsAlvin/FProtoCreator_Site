@@ -94,7 +94,7 @@ public class IndexController {
             map.put("user", us);
             List<User> users = userService.select(map);
             map.clear();
-            if (users.size() > 1) {
+            if (users.size() >= 1) {
                 result = Config.ERROR;
                 message = "用户名已注册";
                 throw new ControllerException(message);

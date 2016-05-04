@@ -21,4 +21,23 @@
         WHERE user_id = #{user_id}
     </select>
 
+    <!--动态查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.User_project">
+        SELECT * FROM user_project
+        <where>
+            <if test="user_project != null">
+                <if test="user_project.id != null">
+                    id = #{user_project.id}
+                </if>
+                <if test="user_project.user_id != null">
+                    AND user_id = #{user_project.user_id}
+                </if>
+                <if test="user_project.project_id != null">
+                    AND project_id = #{user_project.project_id}
+                </if>
+
+            </if>
+        </where>
+    </select>
+
 </mapper>

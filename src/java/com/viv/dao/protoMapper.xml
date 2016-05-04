@@ -38,43 +38,47 @@
         SELECT * FROM proto
         <where>
             <if test="like == null">
-                <if test="proto.id != null">
-                    id =  #{proto.id}
-                </if>
-                <if test="proto.project_id != null">
-                    AND project_id = #{proto.project_id}
-                </if>
-                <if test="proto.cmd != null">
-                    AND cmd = #{proto.cmd}
-                </if>
-                <if test="proto.name != null">
-                    AND name = #{proto.name}
-                </if>
-                <if test="proto.namespace != null">
-                    AND namespace = #{proto.namespace}
-                </if>
-                <if test="proto.describes != null">
-                    AND describes = #{proto.describes}
+                <if test="proto != null">
+                    <if test="proto.id != null">
+                        id =  #{proto.id}
+                    </if>
+                    <if test="proto.project_id != null">
+                        AND project_id = #{proto.project_id}
+                    </if>
+                    <if test="proto.cmd != null">
+                        AND cmd = #{proto.cmd}
+                    </if>
+                    <if test="proto.name != null">
+                        AND name = #{proto.name}
+                    </if>
+                    <if test="proto.namespace != null">
+                        AND namespace = #{proto.namespace}
+                    </if>
+                    <if test="proto.describes != null">
+                        AND describes = #{proto.describes}
+                    </if>
                 </if>
             </if>
             <if test="like != null">
-                <if test="proto.id != null">
-                    id LIKE  #{proto.id}
-                </if>
-                <if test="proto.project_id != null">
-                    AND project_id LIKE #{proto.project_id}
-                </if>
-                <if test="proto.cmd != null">
-                    AND cmd LIKE #{proto.cmd}
-                </if>
-                <if test="proto.name != null">
-                    AND name LIKE #{proto.name}
-                </if>
-                <if test="proto.namespace != null">
-                    AND namespace LIKE #{proto.namespace}
-                </if>
-                <if test="proto.describes != null">
-                    AND describes LIKE #{proto.describes}
+                <if  test="proto != null">
+                    <if test="proto.id != null">
+                        id LIKE  #{proto.id}
+                    </if>
+                    <if test="proto.project_id != null">
+                        AND project_id LIKE #{proto.project_id}
+                    </if>
+                    <if test="proto.cmd != null">
+                        AND cmd LIKE #{proto.cmd}
+                    </if>
+                    <if test="proto.name != null">
+                        AND name LIKE #{proto.name}
+                    </if>
+                    <if test="proto.namespace != null">
+                        AND namespace LIKE #{proto.namespace}
+                    </if>
+                    <if test="proto.describes != null">
+                        AND describes LIKE #{proto.describes}
+                    </if>
                 </if>
             </if>
         </where>
