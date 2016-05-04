@@ -4,56 +4,49 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>项目详情</title>
+    <title>协议详情</title>
     <script type="text/javascript" src="/source/jquery.js"></script>
     <script type="text/javascript">
 
-            function getPage(pageIndex,project_id) {
+            function getPage(pageIndex,proto_id) {
                 $("#mytable").empty();
 
-                $.ajax("/login/proto/list?json",{
+                $.ajax("/login/proto_field/list?json",{
                     type:"post",
-                    data:{"pageIndex":pageIndex,"project_id":project_id},
+                    data:{"pageIndex":pageIndex,"proto_id":proto_id},
                     success:function(data){
 
-                        $("#mytable").append("<tr id='title'><th>协议编号</th><th>项目编号</th><th>CMD</th><th>协议名称</th><th>命名空间</th><th>描述</th></tr>");
+                        $("#mytable").append("<tr id='title'><th>字段编号</th><th>协议编号</th><th>字段名称</th><th>字段类型</th><th>字段关联</th><th>是否数组</th><th>注释</th></tr>");
                         var btn_add="<input type='button' id='btn_add' value='添加'/>";
                         $("#title").append(btn_add);
                         $("#btn_add").click(function(){
                             /*添加的按钮动作*/
-                            window.location.href="/login/proto/insert?project_id="+project_id;
+                            window.location.href="/login/proto_field/insert?proto_id="+proto_id;
                         });
 
+
                         if(data.result=="success"){
-                            for(var i = 0; i < data.protos.length; i++){
-                                var content="<tr id='content'><td>"+data.protos[i].id+"</td><td>"+data.protos[i].project_id+"</td><td>"+data.protos[i].cmd+"</td><td>"+data.protos[i].name+"</td><td>"+data.protos[i].namespace+"</td><td>"+data.protos[i].describes+"</td></tr>";
+                            for(var i = 0; i < data.protoFields.length; i++){
+                                var content="<tr id='content'><td>"+data.protoFields[i].id+"</td><td>"+data.protoFields[i].proto_id+"</td><td>"+data.protoFields[i].name+"</td><td>"+data.protoFields[i].type+"</td><td>"+data.protoFields[i].extend+"</td><td>"+data.protoFields[i].is_array+"</td><td>"+data.protoFields[i].remarks+"</td></tr>";
                                 var btn_del="<input type='button' id='btn_del' value='删除'/>";
                                 var btn_update="<input type='button' id='btn_update' value='修改'/>";
-                                var btn_details="<input type='button' id='btn_details' value='详情'/>";
                                 $("#title").after(content);
                                 $("#content").append(btn_update);
                                 $("#content").append(btn_del);
-                                $("#content").append(btn_details);
 
 
-                                $("#btn_del").click(data.protos[i],function(event){
+                                $("#btn_del").click(data.protoFields[i],function(event){
                                     /*删除的动作*/
-                                    $.post("/login/proto/delete?json",event.data,function(){
+                                    $.post("/login/proto_field/delete?json",event.data,function(){
                                         window.location.reload();
                                     });
                                 });
 
-                                $("#btn_update").click(data.protos[i],function(event){
+                                $("#btn_update").click(data.protoFields[i],function(event){
                                     /*更新的操作*/
-                                    $("html").load("/login/proto/update",event.data,function(){
+                                    $("html").load("/login/proto_field/update",event.data,function(){
 
                                     });
-                                });
-
-                                $("#btn_details").click(data.protos[i],function(event){
-                                    /*详情的操作*/
-                                    window.location.href = "/login/proto_field/list?proto_id="+event.data.id;
-
                                 });
 
                             }
@@ -66,13 +59,13 @@
             }
         $(document).ready(function(){
 
-            $("#project_id").val("${proto.project_id}");
+            $("#proto_id").val("${proto_field.proto_id}");
             var id = 1;
 
             var index = 0;
             var count = 0;
             var maxIndex = 0;
-            $.post("/login/proto/count?json",{project_id:${proto.project_id}},function(data){
+            $.post("/login/proto_field/count?json",{proto_id:${proto_field.proto_id}},function(data){
                 if(data.result == "success") {
                     count = data.count;
                     maxIndex = count/2;
@@ -82,7 +75,7 @@
             $("#pre-page").click(function(){
                 index--;
                 if(index>-1) {
-                    getPage(index,${proto.project_id});
+                    getPage(index,${proto_field.proto_id});
                 }else {
                     index++;
                 }
@@ -90,13 +83,13 @@
             $("#next-page").click(function(){
                 index++;
                 if(index< maxIndex) {
-                    getPage(index,${proto.project_id});
+                    getPage(index,${proto_field.proto_id});
                 }else {
                     index--;
                 }
             });
 
-           getPage(index,${proto.project_id});
+           getPage(index,${proto_field.proto_id});
 
 
         });
@@ -104,14 +97,14 @@
 
 </head>
 <body>
-<h2>项目详情</h2>
+<h2>协议详情</h2>
 <form id="projects">
     <table id="mytable" border="1">
 
     </table>
     <input type="button" id="pre-page" value="上一页">
     <input type="button" id="next-page" value="下一页">
-    <input type="hidden" id="project_id" name="project_id">
+    <input type="hidden" id="proto_id" name="proto_id">
 </form>
 </body>
 </html>

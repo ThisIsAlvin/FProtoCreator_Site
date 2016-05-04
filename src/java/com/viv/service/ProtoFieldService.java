@@ -4,6 +4,7 @@ import com.viv.dao.ProtoFieldOperation;
 import com.viv.dao.ProtoOperation;
 import com.viv.entity.Proto;
 import com.viv.entity.Proto_field;
+import com.viv.exception.ControllerException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -44,10 +45,10 @@ public class ProtoFieldService {
             if (map.containsKey("like") && map.containsKey("proto_field")) {
                 Proto_field proto_field = (Proto_field) map.get("proto_field");
                 if (proto_field.getName() != null) {
-                    proto_field.setName("%"+proto_field.getName()+"%");
+                    proto_field.setName("%" + proto_field.getName() + "%");
                 }
                 if (proto_field.getRemarks() != null) {
-                    proto_field.setRemarks("%"+proto_field.getRemarks()+"%");
+                    proto_field.setRemarks("%" + proto_field.getRemarks() + "%");
                 }
             }
 
@@ -57,11 +58,56 @@ public class ProtoFieldService {
 
             session.commit();
             return proto_fields;
-        }finally {
+        } finally {
+            session.close();
+        }
+    }
+
+    /*添加一个实体*/
+    public void insert(Proto_field proto_field) throws ControllerException {
+        SqlSession session = sessionFactory.openSession();
+        try {
+            /*数据检验*/
+            if (proto_field.getProto_id() == null || proto_field.getName() == null || proto_field.getType() == null) {
+                throw new ControllerException("存在不能为空的输入");
+            }
+
+            ProtoFieldOperation protoFieldOperation = session.getMapper(ProtoFieldOperation.class);
+
+            protoFieldOperation.insert(proto_field);
+
+            session.commit();
+        } finally {
+            session.close();
+        }
+    }
+
+    /*动态更新一个实体*/
+    public void update(Proto_field proto_field) {
+        SqlSession session = sessionFactory.openSession();
+        try {
+            ProtoFieldOperation protoFieldOperation = session.getMapper(ProtoFieldOperation.class);
+
+            protoFieldOperation.update(proto_field);
+
+            session.commit();
+        } finally {
             session.close();
         }
     }
 
 
+    /*删除一个实体*/
+    public void delete(Long id) {
+        SqlSession session = sessionFactory.openSession();
+        try {
+            ProtoFieldOperation protoFieldOperation = session.getMapper(ProtoFieldOperation.class);
 
+            protoFieldOperation.delete(id);
+
+            session.commit();
+        }finally {
+            session.close();
+        }
+    }
 }

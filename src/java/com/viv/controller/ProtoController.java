@@ -26,14 +26,10 @@ import java.util.Map;
 public class ProtoController {
     private ProtoService protoService;
     private ProjectInfoService projectService;
-    private Map<String,Object> map;
-    private String result = Config.ERROR;
-    private String message = Config.ERROR;
 
     public ProtoController() {
         protoService = new ProtoService();
         projectService = new ProjectInfoService();
-        map = new HashMap<>();
     }
 
     /*获取添加proto页面*/
@@ -48,7 +44,9 @@ public class ProtoController {
     /*处理添加proto操作*/
     @RequestMapping(value = "/proto/insert" ,params = "json")
     public @ResponseBody Map<String,Object> insert_json(HttpSession session,Proto proto) {
-        map.clear();
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
         try {
         /*数据检验*/
             if (proto.getProject_id()==null || proto.getCmd()==null || proto.getName().equals("")) {
@@ -74,7 +72,7 @@ public class ProtoController {
 
         } catch (ControllerException m) {
             map.put(Config.RESULT,result);
-            map.put(Config.MESSAGE,message);
+            map.put(Config.MESSAGE,m.getMessage());
         }finally {
             return map;
         }
@@ -83,7 +81,9 @@ public class ProtoController {
     /*处理删除proto记录操作*/
     @RequestMapping(value = "/proto/delete",params = "json")
     public @ResponseBody Map<String,Object> delete_json(HttpSession session,Proto proto) {
-        map.clear();
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
         try {
             /*数据检验*/
             if (proto.getId()==null || proto.getProject_id() == null) {
@@ -120,7 +120,7 @@ public class ProtoController {
 
         } catch (ControllerException m) {
             map.put(Config.RESULT, result);
-            map.put(Config.MESSAGE, message);
+            map.put(Config.MESSAGE, m.getMessage());
         }finally {
             return map;
         }
@@ -137,7 +137,9 @@ public class ProtoController {
     /*处理proto更新操作*/
     @RequestMapping(value = "/proto/update",params = "json")
     public @ResponseBody Map<String,Object> update_json(HttpSession session,Proto proto) {
-        map.clear();
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
         try{
             /*数据检验*/
             if (proto.getId() == null || proto.getProject_id() == null) {
@@ -173,7 +175,7 @@ public class ProtoController {
             map.put(Config.RESULT,result);
         }catch (ControllerException m){
             map.put(Config.RESULT,result);
-            map.put(Config.MESSAGE,message);
+            map.put(Config.MESSAGE,m.getMessage());
         }finally {
             return map;
         }
@@ -192,10 +194,12 @@ public class ProtoController {
     /*获取proto中project_id为xx的count*/
     @RequestMapping(value = "/proto/count",params = "json")
     public @ResponseBody Map<String,Object> count_json(HttpSession session,Long project_id) {
-        map.clear();
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
         try {
             /*数据检验*/
-            if (project_id == null || project_id.equals("")) {
+            if (project_id == null) {
                 result = Config.ERROR;
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
@@ -221,7 +225,7 @@ public class ProtoController {
 
         } catch (ControllerException m) {
             map.put(Config.RESULT, result);
-            map.put(Config.MESSAGE, message);
+            map.put(Config.MESSAGE, m.getMessage());
         }finally {
             return map;
         }
@@ -232,10 +236,12 @@ public class ProtoController {
     /*处理分页获取proto列表请求*/
     @RequestMapping(value = "/proto/list",params = "json")
     public @ResponseBody Map<String,Object> list_json(HttpSession session,Integer pageIndex,Long project_id) {
-        map.clear();
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
         try {
             /*数据检验*/
-            if (pageIndex == null || pageIndex.equals("") || project_id == null || project_id.equals("")) {
+            if (pageIndex == null || project_id == null) {
                 result = Config.ERROR;
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
@@ -271,7 +277,7 @@ public class ProtoController {
 
         } catch (ControllerException m) {
             map.put(Config.RESULT, result);
-            map.put(Config.MESSAGE, message);
+            map.put(Config.MESSAGE, m.getMessage());
         }finally {
             return map;
         }

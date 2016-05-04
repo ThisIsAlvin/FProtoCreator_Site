@@ -61,4 +61,42 @@
         </if>
     </select>
 
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.Proto_field" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO proto_field (proto_id, name, type, extend, is_array, remarks)
+        VALUES (#{proto_id},#{name},#{type},#{extend},#{is_array},#{remarks})
+    </insert>
+
+    <!--动态更新-->
+    <update id="update" parameterType="com.viv.entity.Proto_field">
+        UPDATE proto_field
+        <set>
+            <if test="proto_id != null and proto_id != ''">
+                proto_id = #{proto_id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="extend != null and extend != ''">
+                extend = #{extend},
+            </if>
+            <if test="is_array != null and is_array != ''">
+                is_array = #{is_array},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM proto_field
+        WHERE id = #{id}
+    </delete>
+
 </mapper>
