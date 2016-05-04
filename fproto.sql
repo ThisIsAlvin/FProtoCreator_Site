@@ -116,6 +116,7 @@ INSERT INTO `proto_field` VALUES ('25', '9', 'x', '6', null, '0', null);
 INSERT INTO `proto_field` VALUES ('26', '9', 'y', '6', null, '0', null);
 INSERT INTO `proto_field` VALUES ('27', '9', 'z', '6', null, '0', null);
 INSERT INTO `proto_field` VALUES ('28', '14', '字段1', '12', null, null, '');
+INSERT INTO `proto_field` VALUES ('29', '14', '字段2', '12', null, null, '');
 
 -- ----------------------------
 -- Table structure for user
