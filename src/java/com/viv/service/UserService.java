@@ -13,6 +13,7 @@ import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.ibatis.io.Resources.getResourceAsReader;
 
@@ -101,6 +102,33 @@ public class UserService {
             session.close();
         }
         return users;
+    }
+
+    public List<User> select(Map map) {
+        SqlSession session = sessionFactory.openSession();
+        try {
+            /*数据处理*/
+            if (map.containsKey("like") && map.containsKey("user")) {
+                User user = (User) map.get("user");
+                if (user.getName() != null) {
+                    user.setName("%"+user.getName()+"%");
+                }
+                if (user.getUsername() != null) {
+                    user.setUsername("%"+user.getUsername()+"%");
+                }
+                if (user.getPassword() != null) {
+                    user.setPassword("%"+user.getPassword()+"%");
+                }
+            }
+            UserOperation userOperation = session.getMapper(UserOperation.class);
+
+            List<User> users = userOperation.select(map);
+
+            session.commit();
+            return users;
+        }finally {
+            session.close();
+        }
     }
 
 

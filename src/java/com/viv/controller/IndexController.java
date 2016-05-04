@@ -1,5 +1,7 @@
 package com.viv.controller;
 
+import com.viv.Config;
+import com.viv.exception.ControllerException;
 import com.viv.service.UserService;
 import com.viv.entity.User;
 import org.springframework.stereotype.Controller;
@@ -31,28 +33,41 @@ public class IndexController {
     /*处理登录请求*/
     @RequestMapping(value = "login",params = "json")
     public @ResponseBody Map<String,Object> login_json(User user,HttpSession session){
-        String result = "error";
-        String message = "error";
-        Map<String,Object> map = new HashMap<String, Object>();
-        if(user.getUsername().equals("")||user.getUsername()==null||user.getPassword().equals("")||user.getPassword()==null){
-            message = "登录信息不全";
-            map.put("result",result);
-            map.put("message",message);
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
+        try {
+            /*数据检验*/
+            if(user.getUsername().trim().equals("")||user.getUsername()==null||user.getPassword().trim().equals("")||user.getPassword()==null){
+                result = Config.ERROR;
+                message = "登录信息不全";
+                throw new ControllerException(message);
+            }
+            /*权限检验*/
+            User u = new User();
+            u.setUsername(user.getUsername());
+            u.setPassword(user.getPassword());
+            map.put("user", u);
+            List<User> users = userService.select(map);
+            map.clear();
+            if (users.size() < 1) {
+                result = Config.ERROR;
+                message = "登录信息错误";
+                throw new ControllerException(message);
+            }
+            /*数据处理*/
+
+            /*业务操作*/
+            session.setAttribute("user",users.get(0));
+            result = Config.SUCCESS;
+            map.put(Config.RESULT,result);
+        } catch (ControllerException m) {
+            map.clear();
+            map.put(Config.RESULT, result);
+            map.put(Config.MESSAGE, m.getMessage());
+        }finally {
             return map;
         }
-        User u = userService.selectBy_username_password(user.getUsername(),user.getPassword());
-        if(u!=null){
-//            登录操作
-            session.setAttribute("user",u);
-            result = "success";
-            map.put("result",result);
-            map.put("user",u);
-            return map;
-        }
-        message ="未知错误";
-        map.put("result",result);
-        map.put("message",message);
-        return map;
     }
     /*显示注册页面*/
     @RequestMapping(value = "register")
@@ -62,34 +77,41 @@ public class IndexController {
     /*处理注册请求*/
     @RequestMapping(value = "register",params = "json")
     public @ResponseBody Map<String,Object> register_json(User user){
-        String result = "error";
-        String message = "error";
-        Map<String,Object> map = new HashMap<String, Object>();
-        if(user.getName().isEmpty()||user.getPassword().isEmpty()||user.getUsername().isEmpty()){
-            message="注册信息不全";
-            map.put("result",result);
-            map.put("message",message);
+        Map<String, Object> map = new HashMap<>();
+        String result = Config.ERROR;
+        String message = Config.ERROR;
+        try {
+            /*数据检验*/
+            if(user.getName() == null || user.getPassword() == null || user.getUsername() == null || user.getName().trim().equals("") || user.getUsername().trim().equals("") || user.getPassword().trim().equals("")){
+                result = Config.ERROR;
+                message="注册信息不全";
+                throw new ControllerException(message);
+            }
+            /*权限检验*/
+                /*检查username是否已用*/
+            User us = new User();
+            us.setUsername(user.getUsername());
+            map.put("user", us);
+            List<User> users = userService.select(map);
+            map.clear();
+            if (users.size() > 1) {
+                result = Config.ERROR;
+                message = "用户名已注册";
+                throw new ControllerException(message);
+            }
+            /*数据处理*/
+
+            /*业务操作*/
+            userService.insert(user);
+            result = Config.SUCCESS;
+            map.put(Config.RESULT,result);
+        } catch (ControllerException m) {
+            map.clear();
+            map.put(Config.RESULT, result);
+            map.put(Config.MESSAGE, m.getMessage());
+        }finally {
             return map;
         }
-        List<User> u = userService.selectBy_username(user.getUsername());
-        if(u.size()!=0){
-            message="用户名已注册";
-            map.put("result",result);
-            map.put("message",message);
-            return map;
-        }
-        User us = new User();
-        us.setUsername(user.getUsername());
-        us.setName(user.getName());
-        us.setPassword(user.getPassword());
-        userService.insert(us);
-        result="success";
-        message="注册成功";
-        map.put("result",result);
-        map.put("message",message);
-        return map;
-
-
     }
 
 }

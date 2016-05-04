@@ -3,6 +3,7 @@ package com.viv.dao;
 import com.viv.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by viv on 16-4-23.
@@ -10,12 +11,19 @@ import java.util.List;
 public interface UserOperation {
     /*添加实体*/
     public void insert(User user);
+
     /*根据id删除实体*/
     public void delete(int id);
+
     /*修改实体*/
     public void update(User user);
+
     /*登录时，根据username和password判断用户是否存在*/
     public User selectByUsernamePassword(User user);
+
     /*注册时，根据username判断用户是否存在*/
     public List<User> selectByUsername(String username);
+
+    /*动态分页查询*/
+    public List<User> select(Map map);
 }

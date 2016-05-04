@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2016-04-24 23:20:25
+Date: 2016-05-04 15:55:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,16 +24,21 @@ CREATE TABLE `project_info` (
   `name` text NOT NULL,
   `version` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of project_info
 -- ----------------------------
 INSERT INTO `project_info` VALUES ('1', '龙行天下', '0');
 INSERT INTO `project_info` VALUES ('2', '水浒风云', '0');
-INSERT INTO `project_info` VALUES ('13', '242342', '3');
-INSERT INTO `project_info` VALUES ('14', '大风打分', '1');
-INSERT INTO `project_info` VALUES ('18', '改了', '2');
+INSERT INTO `project_info` VALUES ('14', '这个页面只能用jsp了', '3');
+INSERT INTO `project_info` VALUES ('15', '分页功能有了', '2');
+INSERT INTO `project_info` VALUES ('16', '分页拉', '1');
+INSERT INTO `project_info` VALUES ('17', '开启二级缓存了', '1');
+INSERT INTO `project_info` VALUES ('19', '由于二级缓存可能存在的脏缓存，放弃了', '2');
+INSERT INTO `project_info` VALUES ('20', '现在测试页面行不行', '1');
+INSERT INTO `project_info` VALUES ('23', '3423', '1');
+INSERT INTO `project_info` VALUES ('24', '斗地主', '1');
 
 -- ----------------------------
 -- Table structure for proto
@@ -41,13 +46,13 @@ INSERT INTO `project_info` VALUES ('18', '改了', '2');
 DROP TABLE IF EXISTS `proto`;
 CREATE TABLE `proto` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) unsigned NOT NULL,
+  `project_id` bigint(11) unsigned NOT NULL,
   `cmd` int(11) unsigned NOT NULL,
-  `name` text NOT NULL,
-  `namespace` text,
-  `describes` text,
+  `name` varchar(225) NOT NULL,
+  `namespace` varchar(225) DEFAULT NULL,
+  `describes` varchar(225) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of proto
@@ -61,6 +66,9 @@ INSERT INTO `proto` VALUES ('6', '2', '1', 'Pro_Login', 'UnityNetworkLib', '登�
 INSERT INTO `proto` VALUES ('7', '2', '2', 'SPro_Login', 'UnityNetworkLib', '登录响应');
 INSERT INTO `proto` VALUES ('8', '1', '6', 'Model_Position', 'UnityNetworkLib', '玩家位置信息');
 INSERT INTO `proto` VALUES ('9', '1', '7', 'Model_Speed2', 'UnityNetworkLib', '速度');
+INSERT INTO `proto` VALUES ('14', '2', '1', '56', '123', '123');
+INSERT INTO `proto` VALUES ('15', '2', '1', '1', '1', '1');
+INSERT INTO `proto` VALUES ('16', '24', '1', 'user', 'userspace', '2');
 
 -- ----------------------------
 -- Table structure for proto_field
@@ -75,7 +83,7 @@ CREATE TABLE `proto_field` (
   `is_array` tinyint(4) unsigned DEFAULT '0',
   `remarks` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of proto_field
@@ -107,6 +115,7 @@ INSERT INTO `proto_field` VALUES ('24', '8', 'map_id', '1', null, '0', '地图id
 INSERT INTO `proto_field` VALUES ('25', '9', 'x', '6', null, '0', null);
 INSERT INTO `proto_field` VALUES ('26', '9', 'y', '6', null, '0', null);
 INSERT INTO `proto_field` VALUES ('27', '9', 'z', '6', null, '0', null);
+INSERT INTO `proto_field` VALUES ('28', '14', '字段1', '12', null, null, '');
 
 -- ----------------------------
 -- Table structure for user
@@ -114,11 +123,11 @@ INSERT INTO `proto_field` VALUES ('27', '9', 'z', '6', null, '0', null);
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
@@ -126,6 +135,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` VALUES ('1', 'admin', 'admin', 'admin');
 INSERT INTO `user` VALUES ('2', 'admin_2', 'admin_2', 'admin');
 INSERT INTO `user` VALUES ('3', 'admin_3', 'admin_3', 'admin');
+INSERT INTO `user` VALUES ('4', '嘟嘟', 'test', 'test');
 
 -- ----------------------------
 -- Table structure for user_project
@@ -136,7 +146,7 @@ CREATE TABLE `user_project` (
   `user_id` bigint(20) unsigned NOT NULL COMMENT '用户名',
   `project_id` bigint(20) unsigned NOT NULL COMMENT '跟用户关联的项目',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_project
@@ -145,6 +155,11 @@ INSERT INTO `user_project` VALUES ('1', '1', '1');
 INSERT INTO `user_project` VALUES ('2', '1', '2');
 INSERT INTO `user_project` VALUES ('3', '3', '1');
 INSERT INTO `user_project` VALUES ('4', '3', '2');
-INSERT INTO `user_project` VALUES ('5', '1', '13');
 INSERT INTO `user_project` VALUES ('6', '1', '14');
-INSERT INTO `user_project` VALUES ('10', '1', '18');
+INSERT INTO `user_project` VALUES ('7', '1', '15');
+INSERT INTO `user_project` VALUES ('8', '1', '16');
+INSERT INTO `user_project` VALUES ('9', '1', '17');
+INSERT INTO `user_project` VALUES ('11', '1', '19');
+INSERT INTO `user_project` VALUES ('12', '1', '20');
+INSERT INTO `user_project` VALUES ('15', '1', '23');
+INSERT INTO `user_project` VALUES ('16', '4', '24');
