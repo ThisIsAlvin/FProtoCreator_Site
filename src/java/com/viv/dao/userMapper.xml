@@ -29,4 +29,45 @@
     <delete id="delete" parameterType="int">
         DELETE FROM user WHERE id=#{id}
     </delete>
+
+    <!--动态分页查询 like==null 精确查询  like ！= null 模糊查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.User">
+        SELECT * FROM user
+        <where>
+            <if test="like == null">
+                <if test="user.id != null">
+                    id = #{user.id}
+                </if>
+                <if test="user.name != null">
+                    AND name = #{user.name}
+                </if>
+                <if test="user.username != null">
+                    AND username = #{user.username}
+                </if>
+                <if test="user.password">
+                    AND password = #{user.password}
+                </if>
+            </if>
+            <if test="like != null">
+                <if test="user.id != null">
+                    id LIKE #{user.id}
+                </if>
+                <if test="user.name != null">
+                    AND name LIKE #{user.name}
+                </if>
+                <if test="user.username != null">
+                    AND username LIKE #{user.username}
+                </if>
+                <if test="user.password">
+                    AND password LIKE #{user.password}
+                </if>
+            </if>
+        </where>
+        <if test="page != null">
+            ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+            <if test="page.pageStart>-1 and page.pageSize>-1">
+                limit #{page.pageStart},#{page.pageSize}
+            </if>
+        </if>
+    </select>
 </mapper>

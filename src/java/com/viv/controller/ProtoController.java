@@ -71,6 +71,7 @@ public class ProtoController {
             map.put(Config.RESULT,result);
 
         } catch (ControllerException m) {
+            map.clear();
             map.put(Config.RESULT,result);
             map.put(Config.MESSAGE,m.getMessage());
         }finally {
@@ -119,6 +120,7 @@ public class ProtoController {
             map.put(Config.RESULT,result);
 
         } catch (ControllerException m) {
+            map.clear();
             map.put(Config.RESULT, result);
             map.put(Config.MESSAGE, m.getMessage());
         }finally {
@@ -174,6 +176,7 @@ public class ProtoController {
             result = Config.SUCCESS;
             map.put(Config.RESULT,result);
         }catch (ControllerException m){
+            map.clear();
             map.put(Config.RESULT,result);
             map.put(Config.MESSAGE,m.getMessage());
         }finally {
@@ -224,6 +227,7 @@ public class ProtoController {
             map.put("count", count);
 
         } catch (ControllerException m) {
+            map.clear();
             map.put(Config.RESULT, result);
             map.put(Config.MESSAGE, m.getMessage());
         }finally {
@@ -276,6 +280,7 @@ public class ProtoController {
             map.put("protos", protos);
 
         } catch (ControllerException m) {
+            map.clear();
             map.put(Config.RESULT, result);
             map.put(Config.MESSAGE, m.getMessage());
         }finally {
