@@ -1,11 +1,10 @@
 package com.viv.service;
 
 import com.viv.dao.ProjectInfoOperation;
+import com.viv.dao.ProtoFieldOperation;
+import com.viv.dao.ProtoOperation;
 import com.viv.dao.UserProjectOperation;
-import com.viv.entity.Page;
-import com.viv.entity.Project_info;
-import com.viv.entity.User;
-import com.viv.entity.User_project;
+import com.viv.entity.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -54,14 +53,38 @@ public class ProjectInfoService {
         }
     }
 
-    /*根据id删除一条记录,以及与这条记录关联的User_project记录*/
+    /*根据id删除一条记录,以及与这条记录关联的User_project记录,以及和这个project级联的proto，proto_field*/
     public void delete(Long projectId, Long userId) {
         SqlSession session = sessionFactory.openSession();
         try {
             ProjectInfoOperation projectInfoOperation = session.getMapper(ProjectInfoOperation.class);
-            projectInfoOperation.delete(projectId);
+            ProtoOperation protoOperation = session.getMapper(ProtoOperation.class);
+            ProtoFieldOperation protoFieldOperation = session.getMapper(ProtoFieldOperation.class);
             UserProjectOperation userProjectOperation = session.getMapper(UserProjectOperation.class);
-            Map map = new HashMap();
+
+            Map<String, Object> map = new HashMap<>();
+            Proto proto = new Proto();
+            proto.setProject_id(projectId);
+            map.put("proto", proto);
+            List<Proto> protos = protoOperation.select(map);
+            map.clear();
+            Proto_field proto_field = new Proto_field();
+            List<Proto_field> proto_fields;
+            for (Proto p :
+                    protos) {
+                proto_field.setProto_id(p.getId());
+                map.put("proto_field", proto_field);
+                proto_fields = protoFieldOperation.select(map);
+                map.clear();
+                for (Proto_field pf :
+                        proto_fields) {
+                    protoFieldOperation.delete(pf.getId());
+                }
+                protoOperation.delete(p.getId());
+            }
+
+            projectInfoOperation.delete(projectId);
+            map.clear();
             map.put("user_id", userId);
             map.put("project_id", projectId);
             userProjectOperation.delete(map);

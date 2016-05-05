@@ -1,7 +1,9 @@
 package com.viv.service;
 
+import com.viv.dao.ProtoFieldOperation;
 import com.viv.dao.ProtoOperation;
 import com.viv.entity.Proto;
+import com.viv.entity.Proto_field;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,12 +50,22 @@ public class ProtoService {
         }
     }
 
-    /*删除一个实体*/
+    /*删除一个proto实体,级联删除关联的proto_field*/
     public void delete(Long id) {
         SqlSession session = sessionFactory.openSession();
         try {
             ProtoOperation protoOperation = session.getMapper(ProtoOperation.class);
+            ProtoFieldOperation protoFieldOperation = session.getMapper(ProtoFieldOperation.class);
 
+            Map<String, Object> map = new HashMap<>();
+            Proto_field proto_field = new Proto_field();
+            proto_field.setProto_id(id);
+            map.put("proto_field",proto_field);
+            List<Proto_field> protoFields = protoFieldOperation.select(map);
+            for (Proto_field p :
+                    protoFields) {
+                protoFieldOperation.delete(p.getId());
+            }
             protoOperation.delete(id);
 
             session.commit();

@@ -82,29 +82,6 @@ public class ProjectInfoController {
             return map;
         }
 
-//
-//
-//        List<User_project> projects = null;
-//        User user = (User) session.getAttribute("user");
-//        int index = Integer.parseInt(pageIndex);
-//        if(user != null){
-//            int count = userProjectService.countByUserId(user.getId());
-//            int maxIndex = count / Config.PAGE_SIZE;
-//            if (index > -1 && index <= maxIndex) {
-//                Page page = new Page(SortDirectionEnum.ASC.toString(),"u_p_id",index, Config.PAGE_SIZE);
-//                projects = projectInfoService.selectByUserId_page(page,user.getId());
-//                result = "success";
-//                map.put("result",result);
-//                map.put("projects",projects);
-//                return map;
-//            }
-//            map.put("result",result);
-//            return map;
-//        }
-//        message = "未知错误";
-//        map.put("result",result);
-//        map.put("message",message);
-//        return map;
     }
 
     /*处理查询当前用户项目条数请求*/
@@ -136,19 +113,7 @@ public class ProjectInfoController {
         }finally {
             return map;
         }
-//
-//
-//        if (user != null) {
-//            int count = userProjectService.countByUserId(user.getId());
-//            result = "success";
-//            map.put("result",result);
-//            map.put("count",count);
-//            return map;
-//        }
-//        message = "未知错误";
-//        map.put("result",result);
-//        map.put("message",message);
-//        return map;
+
     }
     /*请求添加页面*/
     @RequestMapping(value = "/project/add")
