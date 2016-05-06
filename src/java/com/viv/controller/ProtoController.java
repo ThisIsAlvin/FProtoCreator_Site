@@ -1,12 +1,10 @@
 package com.viv.controller;
 
 import com.viv.Config;
-import com.viv.entity.Page;
-import com.viv.entity.Proto;
-import com.viv.entity.SortDirectionEnum;
-import com.viv.entity.User;
+import com.viv.entity.*;
 import com.viv.exception.ControllerException;
 import com.viv.service.ProjectInfoService;
+import com.viv.service.ProtoFieldService;
 import com.viv.service.ProtoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +24,12 @@ import java.util.Map;
 public class ProtoController {
     private ProtoService protoService;
     private ProjectInfoService projectService;
+    private ProtoFieldService protoFieldService;
 
     public ProtoController() {
         protoService = new ProtoService();
         projectService = new ProjectInfoService();
+        protoFieldService = new ProtoFieldService();
     }
 
     /*获取添加proto页面*/
@@ -115,6 +115,21 @@ public class ProtoController {
             /*数据处理*/
 
             /*业务操作*/
+                /*将所有proto_field表中extend字段为当前proto的id的记录的extend字段制空 */
+            Proto_field proto_field = new Proto_field();
+            proto_field.setExtend(proto.getId());
+            map.put("proto_field", proto_field);
+            List<Proto_field> protoFields = protoFieldService.select(map);
+            map.clear();
+            Proto_field prf = new Proto_field();
+            for (Proto_field pf :
+                    protoFields) {
+                prf.setId(pf.getId());
+                prf.setExtend(new Long(0)); /*extend==0 制空标志*/
+                protoFieldService.update(prf);
+            }
+
+                /*删除当前记录*/
             protoService.delete(proto.getId());
             result = Config.SUCCESS;
             map.put(Config.RESULT,result);

@@ -56,6 +56,8 @@ public class ProtoFieldController {
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
             }
+            /*数据过滤*/
+
             /*权限检验*/
             User user = (User) session.getAttribute("user");
                 /*获取该proto_id关联的project_id*/
@@ -187,6 +189,8 @@ public class ProtoFieldController {
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
             }
+            /*数据过滤*/
+            proto_field.setId(null);
 
             /*权限检验*/
             User user = (User) session.getAttribute("user");
@@ -215,35 +219,60 @@ public class ProtoFieldController {
             }
                 /*如果extend字段不为空，就得检验该extend字段是否合法*/
             if (proto_field.getExtend() != null) {
-                Proto_field prf = new Proto_field();
-                prf.setId(proto_field.getExtend());
-                map.put("proto_field", prf);
-                List<Proto_field> pfs = protoFieldService.select(map);
-                if (pfs.size() <= 0) {
+                    /*该extend字段不能等于proto_id*/
+                if (proto_field.getProto_id().equals(proto_field.getExtend())) {
+                    result = Config.ERROR;
+                    message = "非法的extend操作，不能指向同一个proto_id";
+                    throw new ControllerException(message);
+                }
+                    /*检查proto表中是否有为extend的id*/
+                Proto pr = new Proto();
+                pr.setId(proto_field.getExtend());
+                map.put("proto", pr);
+                List<Proto> pros = protoService.select(map);
+                if (pros.size() <= 0) {
                     result = Config.ERROR;
                     message = "非法的extend操作，不存在指定extend";
                     throw new ControllerException(message);
                 }
-                map.clear();
-                     /*检查proto_id关联的project_id的是否存在一个属于该用户的*/
-                Proto pr = new Proto();
-                pr.setId(pfs.get(0).getProto_id());
-                map.put("proto", pr);
-                List<Proto> prs = protoService.select(map);
-                map.clear();
-                int j;
-                for (j = 0; j < prs.size(); j++) {
-                    if (projectService.checkProject_id(prs.get(j).getProject_id(), user.getId())) {
-                        break;
-                    }
-                }
-                if (j < prs.size()) {
+                    /*extend是否和proto_id处于同一个project*/
+                if (!(protos.get(0).getProject_id().equals(pros.get(0).getProject_id()))) {
                     result = Config.ERROR;
-                    message = "非法跨的extend操作,proto关联的project不合法";
+                    message = "非法的extend操作，不处于同一个project";
                     throw new ControllerException(message);
                 }
 
             }
+//            if (proto_field.getExtend() != null) {
+//                Proto_field prf = new Proto_field();
+//                prf.setId(proto_field.getExtend());
+//                map.put("proto_field", prf);
+//                List<Proto_field> pfs = protoFieldService.select(map);
+//                if (pfs.size() <= 0) {
+//                    result = Config.ERROR;
+//                    message = "非法的extend操作，不存在指定extend";
+//                    throw new ControllerException(message);
+//                }
+//                map.clear();
+//                     /*检查proto_id关联的project_id的是否存在一个属于该用户的*/
+//                Proto pr = new Proto();
+//                pr.setId(pfs.get(0).getProto_id());
+//                map.put("proto", pr);
+//                List<Proto> prs = protoService.select(map);
+//                map.clear();
+//                int j;
+//                for (j = 0; j < prs.size(); j++) {
+//                    if (projectService.checkProject_id(prs.get(j).getProject_id(), user.getId())) {
+//                        break;
+//                    }
+//                }
+//                if (j < prs.size()) {
+//                    result = Config.ERROR;
+//                    message = "非法跨的extend操作,proto关联的project不合法";
+//                    throw new ControllerException(message);
+//                }
+//
+//            }
             /*数据处理*/
 
             /*业务操作*/
@@ -280,6 +309,7 @@ public class ProtoFieldController {
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
             }
+            /*数据过滤*/
 
             /*权限检验*/
             User user = (User) session.getAttribute("user");
@@ -308,35 +338,60 @@ public class ProtoFieldController {
             }
                 /*如果extend字段不为空，就得检验该extend字段是否合法*/
             if (proto_field.getExtend() != null) {
-                Proto_field prf = new Proto_field();
-                prf.setId(proto_field.getExtend());
-                map.put("proto_field", prf);
-                List<Proto_field> pfs = protoFieldService.select(map);
-                if (pfs.size() <= 0) {
+                    /*该extend字段不能等于proto_id*/
+                if (proto_field.getProto_id().equals(proto_field.getExtend())) {
+                    result = Config.ERROR;
+                    message = "非法的extend操作，不能指向同一个proto_id";
+                    throw new ControllerException(message);
+                }
+                    /*检查proto表中是否有为extend的id*/
+                Proto pr = new Proto();
+                pr.setId(proto_field.getExtend());
+                map.put("proto", pr);
+                List<Proto> pros = protoService.select(map);
+                if (pros.size() <= 0) {
                     result = Config.ERROR;
                     message = "非法的extend操作，不存在指定extend";
                     throw new ControllerException(message);
                 }
-                map.clear();
-                     /*检查proto_id关联的project_id的是否存在一个属于该用户的*/
-                Proto pr = new Proto();
-                pr.setId(pfs.get(0).getProto_id());
-                map.put("proto", pr);
-                List<Proto> prs = protoService.select(map);
-                map.clear();
-                int j;
-                for (j = 0; j < prs.size(); j++) {
-                    if (projectService.checkProject_id(prs.get(j).getProject_id(), user.getId())) {
-                        break;
-                    }
-                }
-                if (j < prs.size()) {
+                    /*extend是否和proto_id处于同一个project*/
+                if (!(protos.get(0).getProject_id().equals(pros.get(0).getProject_id()))) {
                     result = Config.ERROR;
-                    message = "非法跨的extend操作,proto关联的project不合法";
+                    message = "非法的extend操作，不处于同一个project";
                     throw new ControllerException(message);
                 }
 
             }
+//            if (proto_field.getExtend() != null) {
+//                Proto_field prf = new Proto_field();
+//                prf.setId(proto_field.getExtend());
+//                map.put("proto_field", prf);
+//                List<Proto_field> pfs = protoFieldService.select(map);
+//                if (pfs.size() <= 0) {
+//                    result = Config.ERROR;
+//                    message = "非法的extend操作，不存在指定extend";
+//                    throw new ControllerException(message);
+//                }
+//                map.clear();
+//                     /*检查proto_id关联的project_id的是否存在一个属于该用户的*/
+//                Proto pr = new Proto();
+//                pr.setId(pfs.get(0).getProto_id());
+//                map.put("proto", pr);
+//                List<Proto> prs = protoService.select(map);
+//                map.clear();
+//                int j;
+//                for (j = 0; j < prs.size(); j++) {
+//                    if (projectService.checkProject_id(prs.get(j).getProject_id(), user.getId())) {
+//                        break;
+//                    }
+//                }
+//                if (j < prs.size()) {
+//                    result = Config.ERROR;
+//                    message = "非法跨的extend操作,proto关联的project不合法";
+//                    throw new ControllerException(message);
+//                }
+//
+//            }
             /*数据处理*/
 
             /*业务操作*/
@@ -363,11 +418,25 @@ public class ProtoFieldController {
         String message = Config.ERROR;
         try {
             /*数据检验*/
-            if (proto_field.getProto_id() == null || proto_field.getId() == null) {
+            if (proto_field.getId() == null) {
                 result = Config.ERROR;
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
             }
+            /*数据过滤*/
+                /*获取该proto_field的信息*/
+            Proto_field proto_f = new Proto_field();
+            proto_f.setId(proto_field.getId());
+            map.put("proto_field", proto_f);
+            List<Proto_field> protoFields = protoFieldService.select(map);
+            map.clear();
+            if (protoFields.size() <= 0) {
+                result = Config.ERROR;
+                message = "非法的Id操作";
+                throw new ControllerException(message);
+            }
+            proto_field = protoFields.get(0);
+
             /*权限检验*/
             User user = (User) session.getAttribute("user");
                 /*获取该proto_id关联的project_id*/
@@ -393,22 +462,23 @@ public class ProtoFieldController {
                 message = "非法的projectId操作";
                 throw new ControllerException(message);
             }
-                /*检查该id是否在其他的记录的extend中*/
-            Proto_field pfd = new Proto_field();
-            pfd.setExtend(proto_field.getId());
-            map.put("proto_field", pfd);
-            List<Proto_field> pfs = protoFieldService.select(map);
-            map.clear();
-            if (pfs.size() > 0) {
-                for (Proto_field pro :
-                        pfs) {
-                    if (!(pro.getExtend().equals(proto_field.getId()))) {
-                        result = Config.ERROR;
-                        message = "存在以该记录为extend的记录依赖，请先删除其他记录";
-                        throw new ControllerException(message);
-                    }
-                }
-            }
+
+//                /*检查该id是否在其他的记录的extend中*/
+//            Proto_field pfd = new Proto_field();
+//            pfd.setExtend(proto_field.getId());
+//            map.put("proto_field", pfd);
+//            List<Proto_field> pfs = protoFieldService.select(map);
+//            map.clear();
+//            if (pfs.size() > 0) {
+//                for (Proto_field pro :
+//                        pfs) {
+//                    if (!(pro.getExtend().equals(proto_field.getId()))) {
+//                        result = Config.ERROR;
+//                        message = "存在以该记录为extend的记录依赖，请先删除其他记录";
+//                        throw new ControllerException(message);
+//                    }
+//                }
+//            }
             /*数据处理*/
 
             /*业务操作*/

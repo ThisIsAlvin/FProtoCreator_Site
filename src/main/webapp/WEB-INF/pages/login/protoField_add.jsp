@@ -16,6 +16,9 @@
                     type:"post",
                     data:$('#add').serialize(),
                     success:function(data){
+                        if (data.result == "error") {
+                            alert("错误：" + data.message);
+                        }
                         window.location.href="/login/proto_field/list?proto_id=${proto_field.proto_id}";
                     }
                 })

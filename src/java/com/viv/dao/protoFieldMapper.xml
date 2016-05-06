@@ -84,8 +84,11 @@
             <if test="type != null and type != ''">
                 type = #{type},
             </if>
-            <if test="extend != null and extend != ''">
+            <if test="extend != null and extend != '' and extend != 0">
                 extend = #{extend},
+            </if>
+            <if test="extend == 0">
+                extend =  NULL,
             </if>
             <if test="is_array != null and is_array != ''">
                 is_array = #{is_array},
