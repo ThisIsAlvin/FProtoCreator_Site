@@ -49,11 +49,13 @@ public class ProtoController {
         String message = Config.ERROR;
         try {
         /*数据检验*/
-            if (proto.getProject_id()==null || proto.getCmd()==null || proto.getName().equals("")) {
+            if (proto.getProject_id()==null || proto.getCmd()==null || proto.getName() == null || proto.getName().equals("")) {
                 result = Config.ERROR;
                 message = "存在不能为空的输入";
                 throw new ControllerException(message);
             }
+        /*数据过滤*/
+
         /*权限检验*/
             /*检查project_id是否属于当前用户*/
             User user = (User) session.getAttribute("user");
@@ -87,29 +89,31 @@ public class ProtoController {
         String message = Config.ERROR;
         try {
             /*数据检验*/
-            if (proto.getId()==null || proto.getProject_id() == null) {
+            if (proto.getId()==null) {
                 result = Config.ERROR;
                 message = "存在不能为空的输入";
                 throw new ControllerException(message);
             }
+            /*数据过滤*/
+                /*获取该protoId的内容*/
+            Proto p = new Proto();
+            p.setId(proto.getId());
+            map.put("proto",p);
+            List<Proto> protos = protoService.select(map);
+            map.clear();
+            if (protos.size() < 1) {
+                result = Config.ERROR;
+                message = "非法的protoId操作";
+                throw new ControllerException(message);
+            }
+            proto = protos.get(0);
+
             /*权限检验*/
                 /*检查project_id是否是该用户的*/
             User user = (User) session.getAttribute("user");
             if (!(projectService.checkProject_id(proto.getProject_id(), user.getId()))) {
                 result = Config.ERROR;
                 message = "非法的projectId操作";
-                throw new ControllerException(message);
-            }
-                /*检查该protoId是否属于project_id的*/
-            Map<String,Object> m = new HashMap<>();
-            Proto p = new Proto();
-            p.setProject_id(proto.getProject_id());
-            p.setId(proto.getId());
-            m.put("proto",p);
-            List<Proto> protos = protoService.select(m);
-            if (protos.size() < 1) {
-                result = Config.ERROR;
-                message = "非法的protoId操作";
                 throw new ControllerException(message);
             }
             /*数据处理*/
@@ -159,29 +163,30 @@ public class ProtoController {
         String message = Config.ERROR;
         try{
             /*数据检验*/
-            if (proto.getId() == null || proto.getProject_id() == null) {
+            if (proto.getId() == null) {
                 result = Config.ERROR;
                 message = "存在不能为空的数据输入";
                 throw new ControllerException(message);
             }
+            /*数据过滤*/
+                /*获取该protoId的内容*/
+            Proto p = new Proto();
+            p.setId(proto.getId());
+            map.put("proto",p);
+            List<Proto> protos = protoService.select(map);
+            map.clear();
+            if (protos.size() < 1) {
+                result = Config.ERROR;
+                message = "非法的protoId操作";
+                throw new ControllerException(message);
+            }
+            proto.setProject_id(protos.get(0).getProject_id());
             /*权限检验*/
                 /*检查project_id是否是该用户的*/
             User user = (User) session.getAttribute("user");
             if (!(projectService.checkProject_id(proto.getProject_id(), user.getId()))) {
                 result = Config.ERROR;
                 message = "非法的projectId操作";
-                throw new ControllerException(message);
-            }
-                /*检查该protoId是否属于project_id的*/
-            Map<String,Object> m = new HashMap<>();
-            Proto p = new Proto();
-            p.setProject_id(proto.getProject_id());
-            p.setId(proto.getId());
-            m.put("proto",p);
-            List<Proto> protos = protoService.select(m);
-            if (protos.size() < 1) {
-                result = Config.ERROR;
-                message = "非法的protoId操作";
                 throw new ControllerException(message);
             }
             /*数据处理*/
